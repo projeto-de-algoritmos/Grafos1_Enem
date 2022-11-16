@@ -1,0 +1,26 @@
+.App {
+  min-height: 100vh;
+}
+
+.App-header {
+  background-color: rgb(11, 77, 155);
+  padding: 10px 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.App-label {
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+}
+
+.App-header-button {
+  width: 60px;
+  height: 30px;
+  border-radius: 50px;
+  border-width: 0px;
+  font-weight: 700;
+}
