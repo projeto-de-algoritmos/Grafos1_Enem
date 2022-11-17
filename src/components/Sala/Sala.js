@@ -114,8 +114,55 @@ const Sala = () => {
     return true;
   }
 
+  function BFS(si, sj, ei, ej) {
+    // dricection
+    console.log("BFS Call");
+    let dRow = [-1, 0, 1, 0];
+    let dCol = [0, 1, 0, -1];
 
 
+
+    console.log(vis);
+
+    let path = {};
+    let queue = [];
+    queue.push([si, sj]);
+
+    while (queue.length > 0) {
+      let [x, y] = queue[0];
+
+      queue.shift();
+
+      for (let i = 0; i < 4; i++) {
+        let adjx = x + dRow[i];
+        let adjy = y + dCol[i];
+
+        if (isValid(vis, adjx, adjy)) {
+          if (path[`${adjx}-${adjy}`] === undefined) {
+            path[`${adjx}-${adjy}`] = [];
+          }
+          if (!(adjx === ei && adjy === ej) && !(adjx === si && adjy === sj)) {
+
+            // sleep 
+            setTimeout(function () {
+              let btn = document.getElementById(`${adjx}-${adjy}`);
+              btn.style.backgroundColor = "blue";
+            }, 200 * time)
+
+            time++;
+          }
+
+          path[`${adjx}-${adjy}`].push([x, y]);
+          queue.push([adjx, adjy]);
+          vis[adjx][adjy] = true;
+        }
+
+        if (adjx === ei && adjy === ej) return { path, adjx, adjy };
+      }
+    }
+
+    return 0;
+  }
 
 
 
