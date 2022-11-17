@@ -2,6 +2,10 @@ import "./App.css";
 import Sala from "./Sala/Sala";
 
 function App() {
+  const resetHandler = (event)=>{
+    window.location.reload();
+}
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -9,7 +13,7 @@ function App() {
         <label className="App-label" style={{ fontSize: "32px" }}>
           Sala I7 - FGA
         </label>
-        <button className="App-header-button">Restart</button>
+        <button className="App-header-button" onClick={resetHandler} >Restart</button>
       </header>
       <div className="App-body">
         <Sala />
