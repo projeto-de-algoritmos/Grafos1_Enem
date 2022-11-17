@@ -43,19 +43,19 @@ const Sala = () => {
   }
 
   const teste = (i, j) => {
-    console.log('IHUUUUUUU');
+    console.log("sdfsfs", i, j)
     vis[i][j] = true;
   }
 
   let draw = [];
   let column = [];
-  for (let i = 0; i <= 6; i++) draw[i] = i;
+  for (let i = 0; i <= 14; i++) draw[i] = i;
   for (let i = 0; i <= 12; i++) column[i] = i;
   let arr = [];
   useEffect(() => {
     // make 2D greed
 
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= 14; i++) {
       let a = [];
       for (let j = 0; j <= 12; j++) {
         a.push(0);
@@ -64,12 +64,20 @@ const Sala = () => {
     }
 
     // make visited array
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= 14; i++) {
       let d = [];
       for (let j = 0; j <= 12; j++) {
         d.push(false);
       }
       vis.push(d);
+    }
+
+    for (let i = 0; i <= 14; i++) {
+      for (let j = 0; j <= 12; j++) {
+        if (i % 2 != 0 && (j > 0 && j < 6 || j > 6 && j < 12))
+          vis[i][j] = true;
+      }
+
     }
 
     setArray2D(arr);
@@ -92,7 +100,7 @@ const Sala = () => {
 
     if (check === 'wall') {
       // visited node for wall node
-      console.log("WAAAAAAAAAAAAL")
+
       if (event != 0)
         event.target.style.backgroundColor = "black";
       vis[i][j] = true;
@@ -103,7 +111,7 @@ const Sala = () => {
 
   // find Path
   function isValid(vis, row, col) {
-    if (row < 0 || col <= 0 || row > 6|| col > 12) {
+    if (row < 0 || col < 0 || row > 14 || col > 12) {
       return false;
     }
 
@@ -147,7 +155,7 @@ const Sala = () => {
             setTimeout(function () {
               let btn = document.getElementById(`${adjx}-${adjy}`);
               btn.style.backgroundColor = "blue";
-            }, 200 * time)
+            }, 50 * time)
 
             time++;
           }
@@ -186,13 +194,11 @@ const Sala = () => {
 
             let btn = document.getElementById(`${id[0][0]}-${id[0][1]}`);
             btn.style.backgroundColor = "orange";
-          }, 200 * time);
+          }, 50 * time);
           time++;
 
         }
       }
-    } else {
-      console.log("Hi We are going to find Path");
     }
   };
 
@@ -208,7 +214,7 @@ const Sala = () => {
           <tr>
             {column.map((element1, j) => {
               return (
-                (i === 0 || i === 6) && j === 0 ? (
+                (i === 0 || i === 14) && j === 0 ? (
                   <td
                     id={`${i}-${j}`}
                     onClick={(event) => {
@@ -223,8 +229,8 @@ const Sala = () => {
                       <td
                         id={`${i}-${j}`}
                         style={{ cursor: "pointer", textAlign: "center", backgroundColor: "black" }}
-                       
-                      >{}</td>
+                      >
+                      </td>
                     )
                     : (
                       <td
@@ -259,7 +265,7 @@ const Sala = () => {
       </div>
       <div className="Sala-card">
         <React.Fragment>
-         
+
           {gridDraw}
         </React.Fragment>
       </div>
