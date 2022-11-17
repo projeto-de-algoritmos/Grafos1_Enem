@@ -1,6 +1,7 @@
 .Sala-container {
     width: 70%;
     padding: 20px;
+    height: 100%;
 }
 
 .Sala-card {
@@ -9,4 +10,19 @@
     border-radius: 10px;
     background-color: bisque;
     box-shadow: rgb(0 0 0 / 25%) 0px 4px 14px;
+}
+
+.table td {
+    border: 1px solid black;
+    width: 80px;
+    height: 50px;
+}
+
+.table {
+    border-collapse: collapse;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
 }
