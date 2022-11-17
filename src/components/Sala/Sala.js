@@ -75,6 +75,31 @@ const Sala = () => {
     setArray2D(arr);
   }, []);
 
+  const getGridNumberHandler = (i, j, event, check) => {
+    if (check === "start") {
+      // get starting point
+      setStartNode({ i: i, j: j });
+
+      event.target.style.backgroundColor = "green";
+      startHandler(false);
+    }
+    if (check === "target") {
+      // get end point
+      setEndNode({ i: i, j: j });
+      event.target.style.backgroundColor = "red";
+      targetHandler(false);
+    }
+
+    if (check === 'wall') {
+      // visited node for wall node
+      console.log("WAAAAAAAAAAAAL")
+      if (event != 0)
+        event.target.style.backgroundColor = "black";
+      vis[i][j] = true;
+      console.log(vis[i][j]);
+
+    }
+  };
 
 
 
@@ -84,14 +109,66 @@ const Sala = () => {
 
 
 
+  let gridDraw = (
+    <table className={Styles.table}>
+      {draw.map((element, i) => {
+        return (
+          <tr>
+            {column.map((element1, j) => {
+              return (
+                (i === 0 || i === 6) && j === 0 ? (
+                  <td
+                    id={`${i}-${j}`}
+                    onClick={(event) => {
+                      start && getGridNumberHandler(i, j, event, "start");
+                    }}
+                    style={{ cursor: "pointer", textAlign: "center" }}
+                  >Entrada</td>
+                )
+                  :
+                  (i % 2 != 0 && (j > 0 && j < 6 || j > 6 && j < 12))
+                    ? (
+                      <td
+                        id={`${i}-${j}`}
+                        style={{ cursor: "pointer", textAlign: "center", backgroundColor: "black" }}
+                       
+                      >{}</td>
+                    )
+                    : (
+                      <td
+                        id={`${i}-${j}`}
+                        onClick={(event) => {
+
+                          target && getGridNumberHandler(i, j, event, "target");
+                          wall && getGridNumberHandler(i, j, event, "wall");
+                        }}
+                        style={{ cursor: "pointer", textAlign: "center" }}
+
+                      ></td>
+                    )
+
+              );
+            })}
+          </tr>
+        );
+      })}
+    </table>
+  );
 
   return (
     <div className="Sala-container">
-     
+      <div className={Styles.Heading}>
+        <button onClick={() => startHandler(true)}>Entrada</button>
+        <button onClick={() => targetHandler(true)}>Destino</button>
+        <button onClick={() => drawWallHandler(true)}>Wall</button>
+        <button onClick={() => searchHandler(true)}>Buscar</button>
+        <button onClick={resetHandler}>Reiniciar</button>
+
+      </div>
       <div className="Sala-card">
         <React.Fragment>
          
-          {}
+          {gridDraw}
         </React.Fragment>
       </div>
 
