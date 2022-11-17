@@ -101,7 +101,18 @@ const Sala = () => {
     }
   };
 
+  // find Path
+  function isValid(vis, row, col) {
+    if (row < 0 || col <= 0 || row > 6|| col > 12) {
+      return false;
+    }
 
+    if (vis[row][col]) {
+      return false;
+    }
+
+    return true;
+  }
 
 
 
