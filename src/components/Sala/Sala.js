@@ -164,8 +164,42 @@ const Sala = () => {
     return 0;
   }
 
+  const findPathHandler = () => {
+    console.log(startNode, endNode);
+    console.log(startNode.length, endNode.length);
+    if (Object.keys(startNode).length && Object.keys(endNode).length) {
+      console.log("Before BFS");
+      let ans = BFS(startNode.i, startNode.j, endNode.i, endNode.j);
+      console.log("After BFS");
+      console.log(ans);
+      if (ans !== 0) {
+        let x = ans.adjx,
+          y = ans.adjy;
 
+        while (true) {
 
+          let id = ans.path[`${x}-${y}`];
+          x = id[0][0];
+          y = id[0][1];
+          if (startNode.i === x && startNode.j === y) break;
+          setTimeout(() => {
+
+            let btn = document.getElementById(`${id[0][0]}-${id[0][1]}`);
+            btn.style.backgroundColor = "orange";
+          }, 200 * time);
+          time++;
+
+        }
+      }
+    } else {
+      console.log("Hi We are going to find Path");
+    }
+  };
+
+  // path find all call 
+  if (search === true) {
+    findPathHandler();
+  }
 
   let gridDraw = (
     <table className={Styles.table}>
