@@ -9,11 +9,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <label className="App-label">MOCAP 2022</label>
+        <label className="App-label">FGA</label>
         <label className="App-label" style={{ fontSize: "32px" }}>
-          MOCAP 2022
+          Mocap 2022
         </label>
-        <button className="App-header-button" onClick={resetHandler} >Restart</button>
+        <button className="App-header-button" onClick={resetHandler} >Instruções</button>
       </header>
       <div className="App-body">
         <Sala />
