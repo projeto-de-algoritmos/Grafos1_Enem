@@ -41,9 +41,8 @@ const Sala = () => {
   for (let i = 0; i <= 14; i++) draw[i] = i;
   for (let i = 0; i <= 12; i++) column[i] = i;
   let arr = [];
-  useEffect(() => {
-    // make 2D greed
 
+  useEffect(() => {
     for (let i = 0; i <= 14; i++) {
       let a = [];
       for (let j = 0; j <= 12; j++) {
@@ -75,21 +74,19 @@ const Sala = () => {
     if (check === "start") {
       // get starting point
       setStartNode({ i: i, j: j });
-
       event.target.style.backgroundColor = "green";
       startHandler(false);
     }
     if (check === "target") {
       // get end point
       setEndNode({ i: i, j: j });
-      event.target.style.backgroundColor = "red";
+      event.target.style.backgroundColor = "white";
       targetHandler(false);
     }
 
     if (check === "wall") {
-      // visited node for wall node
-
-      if (event !== 0) event.target.style.backgroundColor = "black";
+      // visited node for wall node 
+      if (event !== 0) event.target.style.backgroundColor = "red";
       vis[i][j] = true;
       console.log(vis[i][j]);
     }
@@ -199,17 +196,21 @@ const Sala = () => {
                   onClick={(event) => {
                     start && getGridNumberHandler(i, j, event, "start");
                   }}
-                  style={{ cursor: "pointer", textAlign: "center" }}
+                  style={{
+                    cursor: "pointer",
+                    textAlign: "center",
+                    fontSize: 10,
+                  }}
                 >
                   Entrada
                 </td>
-              ) : i % 2 != 0 && ((j > 0 && j < 6) || (j > 6 && j < 12)) ? (
+              ) : i % 2 !== 0 && ((j > 0 && j < 6) || (j > 6 && j < 12)) ? (
                 <td
                   id={`${i}-${j}`}
                   style={{
                     cursor: "pointer",
                     textAlign: "center",
-                    backgroundColor: "black",
+                    backgroundColor: "grey",
                   }}
                 ></td>
               ) : (
@@ -232,12 +233,34 @@ const Sala = () => {
   return (
     <div className="Sala-container">
       <div className="Sala-card">
-        <div className={Styles.Heading}>
-          <button onClick={() => startHandler(true)}>Entrada</button>
-          <button onClick={() => targetHandler(true)}>Destino</button>
-          <button onClick={() => drawWallHandler(true)}>Wall</button>
-          <button onClick={() => searchHandler(true)}>Buscar</button>
-          <button onClick={resetHandler}>Reiniciar</button>
+        <div className="Sala-menu-buttons-div">
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => startHandler(true)}
+          >
+            Entrada
+          </button>
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => targetHandler(true)}
+          >
+            Destino
+          </button>
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => drawWallHandler(true)}
+          >
+            Lugares Ocupados
+          </button>
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => searchHandler(true)}
+          >
+            Buscar
+          </button>
+          <button className="Sala-menu-buttons" onClick={resetHandler}>
+            Reiniciar
+          </button>
         </div>
         {gridDraw}
       </div>
