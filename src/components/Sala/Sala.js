@@ -1,7 +1,6 @@
 import "./Sala.css";
 import React, { useEffect, useState } from "react";
 import Styles from "./Sala.module.css";
-import { MdOutlinePortableWifiOff } from 'react-icons/md';
 
 let time = 0;
 let vis = [];
@@ -15,10 +14,9 @@ const Sala = () => {
   const [search, setSearch] = useState(false);
   const [wall, setWall] = useState(false);
 
-
   const startHandler = (data) => {
     // console.log("data", data);
-    if (data === true){
+    if (data === true) {
       setStart(true);
       setTarget(false);
       setWall(false);
@@ -29,12 +27,12 @@ const Sala = () => {
 
   const resetHandler = (event) => {
     window.location.reload();
-  }
+  };
 
   const targetHandler = (data) => {
     if (data === 3)
       setTarget(false);
-    if (data === true){
+    if (data === true) {
       setTarget(true);
       setStart(false);
       setWall(false);
@@ -65,9 +63,8 @@ const Sala = () => {
   for (let i = 0; i <= 14; i++) draw[i] = i;
   for (let i = 0; i <= 12; i++) column[i] = i;
   let arr = [];
-  useEffect(() => {
-    // make 2D greed
 
+  useEffect(() => {
     for (let i = 0; i <= 14; i++) {
       let a = [];
       for (let j = 0; j <= 12; j++) {
@@ -87,10 +84,9 @@ const Sala = () => {
 
     for (let i = 0; i <= 14; i++) {
       for (let j = 0; j <= 12; j++) {
-        if (i % 2 != 0 && (j > 0 && j < 6 || j > 6 && j < 12))
+        if (i % 2 !== 0 && ((j > 0 && j < 6) || (j > 6 && j < 12)))
           vis[i][j] = true;
       }
-
     }
 
     setArray2D(arr);
@@ -100,7 +96,6 @@ const Sala = () => {
     if (check === "start") {
       // get starting point
       setStartNode({ i: i, j: j });
-
       event.target.style.backgroundColor = "green";
       startHandler(false);
     }
@@ -172,12 +167,11 @@ const Sala = () => {
             path[`${adjx}-${adjy}`] = [];
           }
           if (!(adjx === ei && adjy === ej) && !(adjx === si && adjy === sj)) {
-
-            // sleep 
+            // sleep
             setTimeout(function () {
               let btn = document.getElementById(`${adjx}-${adjy}`);
               btn.style.backgroundColor = "blue";
-            }, 50 * time)
+            }, 50 * time);
 
             time++;
           }
@@ -207,24 +201,21 @@ const Sala = () => {
           y = ans.adjy;
 
         while (true) {
-
           let id = ans.path[`${x}-${y}`];
           x = id[0][0];
           y = id[0][1];
           if (startNode.i === x && startNode.j === y) break;
           setTimeout(() => {
-
             let btn = document.getElementById(`${id[0][0]}-${id[0][1]}`);
             btn.style.backgroundColor = "orange";
           }, 50 * time);
           time++;
-
         }
       }
     }
   };
 
-  // path find all call 
+  // path find all call
   if (search === true) {
     findPathHandler();
   }
@@ -235,38 +226,38 @@ const Sala = () => {
         return (
           <tr>
             {column.map((element1, j) => {
-              return (
-                (i === 0 || i === 14) && j === 0 ? (
-                  <td
-                    id={`${i}-${j}`}
-                    onClick={(event) => {
-                      start && getGridNumberHandler(i, j, event, "start");
-                    }}
-                    style={{ cursor: "pointer", textAlign: "center" }}
-                  >Entrada</td>
-                )
-                  :
-                  (i % 2 != 0 && (j > 0 && j < 6 || j > 6 && j < 12))
-                    ? (
-                      <td
-                        id={`${i}-${j}`}
-                        style={{ cursor: "pointer", textAlign: "center", backgroundColor: "black" }}
-                      >
-                      </td>
-                    )
-                    : (
-                      <td
-                        id={`${i}-${j}`}
-                        onClick={(event) => {
-
-                          target && getGridNumberHandler(i, j, event, "target");
-                          wall && getGridNumberHandler(i, j, event, "wall");
-                        }}
-                        style={{ cursor: "pointer", textAlign: "center" }}
-
-                      ></td>
-                    )
-
+              return (i === 0 || i === 14) && j === 0 ? (
+                <td
+                  id={`${i}-${j}`}
+                  onClick={(event) => {
+                    start && getGridNumberHandler(i, j, event, "start");
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    textAlign: "center",
+                    fontSize: 10,
+                  }}
+                >
+                  Entrada
+                </td>
+              ) : i % 2 !== 0 && ((j > 0 && j < 6) || (j > 6 && j < 12)) ? (
+                <td
+                  id={`${i}-${j}`}
+                  style={{
+                    cursor: "pointer",
+                    textAlign: "center",
+                    backgroundColor: "black",
+                  }}
+                ></td>
+              ) : (
+                <td
+                  id={`${i}-${j}`}
+                  onClick={(event) => {
+                    target && getGridNumberHandler(i, j, event, "target");
+                    wall && getGridNumberHandler(i, j, event, "wall");
+                  }}
+                  style={{ cursor: "pointer", textAlign: "center" }}
+                ></td>
               );
             })}
           </tr>
@@ -277,21 +268,38 @@ const Sala = () => {
 
   return (
     <div className="Sala-container">
-      <div className={Styles.Heading}>
-        <button onClick={() => startHandler(true)}>Entrada</button>
-        <button onClick={() => targetHandler(true)}>Destino</button>
-        <button onClick={() => drawWallHandler(true)}>Wall</button>
-        <button onClick={() => searchHandler(true)}>Buscar</button>
-        <button onClick={resetHandler}>Reiniciar</button>
-
-      </div>
       <div className="Sala-card">
-        <React.Fragment>
-
-          {gridDraw}
-        </React.Fragment>
+        <div className="Sala-menu-buttons-div">
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => startHandler(true)}
+          >
+            Entrada
+          </button>
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => targetHandler(true)}
+          >
+            Destino
+          </button>
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => drawWallHandler(true)}
+          >
+            Lugares Ocupados
+          </button>
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => searchHandler(true)}
+          >
+            Buscar
+          </button>
+          <button className="Sala-menu-buttons" onClick={resetHandler}>
+            Reiniciar
+          </button>
+        </div>
+        {gridDraw}
       </div>
-
     </div>
   );
 };
