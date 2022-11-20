@@ -17,9 +17,12 @@ const Sala = () => {
 
 
   const startHandler = (data) => {
-    console.log("data", data);
-    if (data === true)
+    // console.log("data", data);
+    if (data === true){
       setStart(true);
+      setTarget(false);
+      setWall(false);
+    }
     if (data === false)
       setStart(false);
   }
@@ -29,21 +32,31 @@ const Sala = () => {
   }
 
   const targetHandler = (data) => {
-    if (data === true)
+    if (data === 3)
+      setTarget(false);
+    if (data === true){
       setTarget(true);
+      setStart(false);
+      setWall(false);
+    }
     if (data === false)
       setTarget(false);
   }
   const searchHandler = () => {
     setSearch(true);
+    setTarget(false);
+    setStart(false);
+    setWall(false);
   }
 
   const drawWallHandler = () => {
     setWall(true);
+    setTarget(false);
+    setStart(false);
   }
 
   const teste = (i, j) => {
-    console.log("sdfsfs", i, j)
+    // console.log("sdfsfs", i, j)
     vis[i][j] = true;
   }
 
@@ -92,19 +105,23 @@ const Sala = () => {
       startHandler(false);
     }
     if (check === "target") {
-      // get end point
-      setEndNode({ i: i, j: j });
-      event.target.style.backgroundColor = "red";
-      targetHandler(false);
+      if (event.target.style.backgroundColor === "grey" || i === 0 || i === 14 || j === 0 || j === 12 || j === 6) {
+        window.alert("You can't set target on here");
+      } else {
+        // get end point
+        setEndNode({ i: i, j: j });
+        event.target.style.backgroundColor = "red";
+        targetHandler(false);
+      }
     }
 
     if (check === 'wall') {
       // visited node for wall node
 
       if (event != 0)
-        event.target.style.backgroundColor = "black";
-      vis[i][j] = true;
-      console.log(vis[i][j]);
+        event.target.style.backgroundColor = "grey";
+      vis[i][j] = 3;
+      // console.log(vis[i][j]);
 
     }
   };
@@ -115,7 +132,12 @@ const Sala = () => {
       return false;
     }
 
-    if (vis[row][col]) {
+    if (vis[row][col] === 3) {
+      console.log(3333333333333)
+      return true;
+    }
+
+    if (vis[row][col] === true) {
       return false;
     }
 
@@ -124,13 +146,13 @@ const Sala = () => {
 
   function BFS(si, sj, ei, ej) {
     // dricection
-    console.log("BFS Call");
+    // console.log("BFS Call");
     let dRow = [-1, 0, 1, 0];
     let dCol = [0, 1, 0, -1];
 
 
 
-    console.log(vis);
+    // console.log(vis);
 
     let path = {};
     let queue = [];
@@ -173,13 +195,13 @@ const Sala = () => {
   }
 
   const findPathHandler = () => {
-    console.log(startNode, endNode);
-    console.log(startNode.length, endNode.length);
+    // console.log(startNode, endNode);
+    // console.log(startNode.length, endNode.length);
     if (Object.keys(startNode).length && Object.keys(endNode).length) {
-      console.log("Before BFS");
+      // console.log("Before BFS");
       let ans = BFS(startNode.i, startNode.j, endNode.i, endNode.j);
-      console.log("After BFS");
-      console.log(ans);
+      // console.log("After BFS");
+      // console.log(ans);
       if (ans !== 0) {
         let x = ans.adjx,
           y = ans.adjy;
