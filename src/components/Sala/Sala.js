@@ -1,6 +1,7 @@
 import "./Sala.css";
 import React, { useEffect, useState } from "react";
 import Styles from "./Sala.module.css";
+import entrada from "./../../assets/pegadas.png";
 
 let time = 0;
 let vis = [];
@@ -12,51 +13,45 @@ const Sala = () => {
   const [start, setStart] = useState(false);
   const [target, setTarget] = useState(false);
   const [search, setSearch] = useState(false);
-  const [wall, setWall] = useState(false);
+  const [ocupied, setOcupied] = useState(false);
+
+  let total = 0;
 
   const startHandler = (data) => {
     // console.log("data", data);
     if (data === true) {
       setStart(true);
       setTarget(false);
-      setWall(false);
+      setOcupied(false);
     }
-    if (data === false)
-      setStart(false);
-  }
+    if (data === false) setStart(false);
+  };
 
   const resetHandler = (event) => {
     window.location.reload();
   };
 
   const targetHandler = (data) => {
-    if (data === 3)
-      setTarget(false);
+    if (data === 3) setTarget(false);
     if (data === true) {
       setTarget(true);
       setStart(false);
-      setWall(false);
+      setOcupied(false);
     }
-    if (data === false)
-      setTarget(false);
-  }
+    if (data === false) setTarget(false);
+  };
   const searchHandler = () => {
     setSearch(true);
     setTarget(false);
     setStart(false);
-    setWall(false);
-  }
+    setOcupied(false);
+  };
 
-  const drawWallHandler = () => {
-    setWall(true);
+  const drawocupiedHandler = () => {
+    setOcupied(true);
     setTarget(false);
     setStart(false);
-  }
-
-  const teste = (i, j) => {
-    // console.log("sdfsfs", i, j)
-    vis[i][j] = true;
-  }
+  };
 
   let draw = [];
   let column = [];
@@ -100,8 +95,15 @@ const Sala = () => {
       startHandler(false);
     }
     if (check === "target") {
-      if (event.target.style.backgroundColor === "grey" || i === 0 || i === 14 || j === 0 || j === 12 || j === 6) {
-        window.alert("You can't set target on here");
+      if (
+        vis[i][j] === 3 ||
+        i === 0 ||
+        i === 14 ||
+        j === 0 ||
+        j === 12 ||
+        j === 6
+      ) {
+        window.alert("You can't set target here");
       } else {
         // get end point
         setEndNode({ i: i, j: j });
@@ -110,13 +112,25 @@ const Sala = () => {
       }
     }
 
-    if (check === 'wall') {
-      // visited node for wall node
+    if (check === "ocupied") {
 
-      if (event != 0)
-        event.target.style.backgroundColor = "grey";
+      if (
+        vis[i][j] === 3 ||
+        i === 0 ||
+        i === 14 ||
+        j === 0 ||
+        j === 12 ||
+        j === 6
+      ) {
+        window.alert("You can't set target here");
+      }
+      else {
+        event.target.style.background =
+          "url('https://cdn-icons-png.flaticon.com/512/76/76814.png') center no-repeat";
+        event.target.style.backgroundSize = "34px";
+        event.target.style.backgroundColor = "white";
+      }
       vis[i][j] = 3;
-      // console.log(vis[i][j]);
 
     }
   };
@@ -128,7 +142,6 @@ const Sala = () => {
     }
 
     if (vis[row][col] === 3) {
-      console.log(3333333333333)
       return true;
     }
 
@@ -140,14 +153,9 @@ const Sala = () => {
   }
 
   function BFS(si, sj, ei, ej) {
-    // dricection
-    // console.log("BFS Call");
+
     let dRow = [-1, 0, 1, 0];
     let dCol = [0, 1, 0, -1];
-
-
-
-    // console.log(vis);
 
     let path = {};
     let queue = [];
@@ -170,7 +178,7 @@ const Sala = () => {
             // sleep
             setTimeout(function () {
               let btn = document.getElementById(`${adjx}-${adjy}`);
-              btn.style.backgroundColor = "blue";
+              btn.style.backgroundColor = "rgb(11, 77, 155)";
             }, 50 * time);
 
             time++;
@@ -188,14 +196,10 @@ const Sala = () => {
     return 0;
   }
 
-  const findPathHandler = () => {
-    // console.log(startNode, endNode);
-    // console.log(startNode.length, endNode.length);
+  const findPath = () => {
     if (Object.keys(startNode).length && Object.keys(endNode).length) {
-      // console.log("Before BFS");
       let ans = BFS(startNode.i, startNode.j, endNode.i, endNode.j);
-      // console.log("After BFS");
-      // console.log(ans);
+
       if (ans !== 0) {
         let x = ans.adjx,
           y = ans.adjy;
@@ -208,8 +212,14 @@ const Sala = () => {
           setTimeout(() => {
             let btn = document.getElementById(`${id[0][0]}-${id[0][1]}`);
             btn.style.backgroundColor = "orange";
+            btn.style.backgroundImage =
+              "url('https://cdn-icons-png.flaticon.com/512/21/21621.png')";
+            btn.style.backgroundSize = "34px";
+            btn.style.backgroundRepeat = "no-repeat";
+            btn.style.backgroundPosition = "center";
           }, 50 * time);
           time++;
+          total++;
         }
       }
     }
@@ -217,10 +227,10 @@ const Sala = () => {
 
   // path find all call
   if (search === true) {
-    findPathHandler();
+    findPath();
   }
 
-  let gridDraw = (
+  let mapDraw = (
     <table className={Styles.table}>
       {draw.map((element, i) => {
         return (
@@ -236,17 +246,20 @@ const Sala = () => {
                     cursor: "pointer",
                     textAlign: "center",
                     fontSize: 10,
+                    background:
+                      "url('https://svgsilh.com/svg/307401.svg') center no-repeat",
+                    backgroundSize: 26,
                   }}
-                >
-                  Entrada
-                </td>
+                ></td>
               ) : i % 2 !== 0 && ((j > 0 && j < 6) || (j > 6 && j < 12)) ? (
                 <td
                   id={`${i}-${j}`}
                   style={{
                     cursor: "pointer",
                     textAlign: "center",
-                    backgroundColor: "black",
+                    background:"url('https://cdn-icons-png.flaticon.com/512/5074/5074182.png') center no-repeat",
+                    backgroundSize: "36px",
+                    backgroundColor: "slategrey"
                   }}
                 ></td>
               ) : (
@@ -254,7 +267,7 @@ const Sala = () => {
                   id={`${i}-${j}`}
                   onClick={(event) => {
                     target && getGridNumberHandler(i, j, event, "target");
-                    wall && getGridNumberHandler(i, j, event, "wall");
+                    ocupied && getGridNumberHandler(i, j, event, "ocupied");
                   }}
                   style={{ cursor: "pointer", textAlign: "center" }}
                 ></td>
@@ -276,17 +289,18 @@ const Sala = () => {
           >
             Entrada
           </button>
+          
+          <button
+            className="Sala-menu-buttons"
+            onClick={() => drawocupiedHandler(true)}
+          >
+            Selecionar Lugares Ocupados
+          </button>
           <button
             className="Sala-menu-buttons"
             onClick={() => targetHandler(true)}
           >
             Destino
-          </button>
-          <button
-            className="Sala-menu-buttons"
-            onClick={() => drawWallHandler(true)}
-          >
-            Lugares Ocupados
           </button>
           <button
             className="Sala-menu-buttons"
@@ -298,7 +312,7 @@ const Sala = () => {
             Reiniciar
           </button>
         </div>
-        {gridDraw}
+        {mapDraw}
       </div>
     </div>
   );
