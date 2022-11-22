@@ -1,7 +1,6 @@
 import "./Sala.css";
 import React, { useEffect, useState } from "react";
 import Styles from "./Sala.module.css";
-import entrada from "./../../assets/pegadas.png";
 
 let time = 0;
 let vis = [];

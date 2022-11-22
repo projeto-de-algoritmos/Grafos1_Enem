@@ -8,9 +8,9 @@ function App() {
       <header className="App-header">
         <label className="App-label">FGA</label>
         <label className="App-label" style={{ fontSize: "32px" }}>
-          Mocap 2022
+          Mocap
         </label>
-        <button className="App-header-button" >Instruções</button>
+        <span className="App-label" >2022-2</span>
       </header>
       <div className="App-body">
         <Sala />
